@@ -12,11 +12,6 @@ For failed deposits, we have the onDropMessage function to allow the user to ret
     function onDropMessage(bytes calldata _message) external payable virtual onlyInDropContext nonReentrant {
         // _message should start with 0x8431f5c1  =>  finalizeDepositERC20(address,address,address,address,uint256,bytes)
         require(bytes4(_message[0:4]) == IL2ERC20Gateway.finalizeDepositERC20.selector, "invalid selector");
-
-        // decode (token, receiver, amount)
-        (address _token, , address _receiver, , uint256 _amount, ) = abi.decode(
-            _message[4:],
-            (address, address, address, address, uint256, bytes)
         );
 
         // do dome check for each custom gateway
